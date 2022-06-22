@@ -10,10 +10,11 @@ public class produk {
         this.id=id;
         this.harga=harga;
    }
-   public Integer getInteger(){
+   /*public Integer getInteger(){
        Integer integerID= Integer.valueOf(this.id);
     return integerID;
-   }
+   }*/
+
 
 
 

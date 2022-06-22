@@ -24,12 +24,14 @@ public class kasirMain {
 
     public static int totalHarga(ArrayList<ArrayList<Object>> arList, int arrLength){
         //Menghitung total harga dari seluruh produk yang sudah dihitung duplikasinya dalam Arraylist(Arraylist(Produk, jumlah))
-        int harTotal = 0;
-        if(arrLength<=0){
+        //int harTotal = 0;
+        if(arrLength<=0){ //((mie, 2), (telur, 3), (kecap, 8))
             return 0;
         }
         return (totalHarga(arList,arrLength-1)+ ((Integer) arList.get(arrLength-1).get(1)*getHarga((produk) arList.get(arrLength-1).get(0))));
     }
+    //(mie, mie,mie, telur, telur )
+    //((mie,3),(telur,2))
 
     public static ArrayList<ArrayList<Object>> mapProduk(ArrayList<produk>list){
         //Menghitung Duplikasi produk menggunakan Map hashmap sehingga menghasilkan jumlah tiap produk
@@ -64,6 +66,7 @@ public class kasirMain {
         File myObj=new File("D:\\Struk\\"+namaFile+"0"+".txt");
         int duplicate=1; //jumlah duplikasi
 
+
         while(myObj.exists()){//Jika  nama file sudah ada maka buat file  baru dengan tambahan angka duplikasi
             duplicate++;
             myObj=new File("D:\\Struk\\"+namaFile+duplicate+".txt");
@@ -85,7 +88,9 @@ public class kasirMain {
         try{
             FileWriter inputWriter=new FileWriter(struk); //inisialisasi FileWriter
             inputWriter.write(produk+"\n");//Menuliskan String produk yang sudah diformat
+            inputWriter.write(("------------------------------------\n"));
             inputWriter.write(String.valueOf("Total Harga = "+Jumlah));//Menuliskan Jumlah harga pada akhir txt
+
             inputWriter.close();
 
         }
@@ -94,12 +99,19 @@ public class kasirMain {
         }
 
     }
+    public static String formatStruk(int id,String nama, int harga, int jumlah, int total){
+        //Memformat id, nama, harga, jumlah, dan total
+        String format ="%1$-3d|%2$-15s|%3$-6d|%4$-6d|%5$-6d\n";
+        return String.format(format,id,nama,harga,jumlah,total );
+    }
+
     public static String arrToString(ArrayList<ArrayList<Object>> list){
         //memformat ArrayList(ArrList(produk, jumlah)) menjadi String
-        String formatTable="%1$-3s|%2$-10s|%3$-6s|%4$-6s|%5$-6s\n"; //Format untuk Baris pertama Tabel
+        String formatTable="%1$-3s|%2$-15s|%3$-6s|%4$-6s|%5$-6s\n"; //Format untuk Baris pertama Tabel
         String Struk=String.format(formatTable,"ID", "Nama","Harga","Jumlah","Total");
         for(int i=0;i< list.size();i++){
             //Melakukan loop untuk memformat tiap index
+
             int id=getID((produk) list.get(i).get(0)); //Mengambil id pada ArrayList(i(ArrayList(0))
             int harga=getHarga((produk) list.get(i).get(0));//Mengambil harga pada ArrayList(i(ArrayList(0))
             String nama=(getNama((produk) list.get(i).get(0)));//Mengambil nama pada ArrayList(i(ArrayList(0))
@@ -110,11 +122,7 @@ public class kasirMain {
         return Struk;
     }
 
-    public static String formatStruk(int id,String nama, int harga, int jumlah, int total){
-        //Memformat id, nama, harga, jumlah, dan total
-        String format ="%1$-3d|%2$-10s|%3$-6d|%4$-6d|%5$-6d\n";
-        return String.format(format,id,nama,harga,jumlah,total );
-    }
+
 
 
     public static void main(String[] args) {
@@ -123,16 +131,19 @@ public class kasirMain {
 
         int id=0;
         int jumlah=0;
-        System.out.println("-------Kasir Toko X ---------");
+        System.out.println("-----------Kasir Toko X-------------");
         while(true){
+            System.out.println("------------------------------------");
             System.out.println("1. Tambah Barang");
             System.out.println("2. Cetak Struk");
             System.out.println("3. Keluar");
+            System.out.println("------------------------------------");
+
             int choice= input.nextInt();
             if(choice==1){
-                System.out.println("Masukan id : ");
+                System.out.print("Masukan id : ");
                 id=input.nextInt();
-                System.out.println("Masukan Jumlah : ");
+                System.out.print("Masukan Jumlah : ");
                 jumlah= input.nextInt();
                 tambahKeStruk(daftarProduk.listedProduct(),strukBelanja,id,jumlah);// menambahkan produk ke Arlist Struk
 
@@ -146,13 +157,15 @@ public class kasirMain {
 
                 for(int i=0;i<strukDanJumlah.size();i++){
                     jumlahHarga=((produk)strukDanJumlah.get(i).get(0)).harga*(int) strukDanJumlah.get(i).get(1);
-                    System.out.println(getNama((produk) strukDanJumlah.get(i).get(0))+" "+strukDanJumlah.get(i).get(1)+" "+jumlahHarga);
+                    //System.out.println(getNama((produk) strukDanJumlah.get(i).get(0))+" "+strukDanJumlah.get(i).get(1)+" "+jumlahHarga);
+                    System.out.print(formatStruk(getID((produk) strukDanJumlah.get(i).get(0)),getNama((produk) strukDanJumlah.get(i).get(0)),getHarga((produk) strukDanJumlah.get(i).get(0)), (Integer) strukDanJumlah.get(i).get(1),jumlahHarga));
 
                 }
-                System.out.println(totalHarga(strukDanJumlah,strukDanJumlah.size()));
-
+                System.out.println("------------------------------------");
+                System.out.println("Total = " + totalHarga(strukDanJumlah,strukDanJumlah.size()));
                 File newStruk=buatFile("fileStruk");//Membuat fileStruk(nomor).txt
-                System.out.println(newStruk.getName());
+                System.out.println("------------------------------------");
+                System.out.println("Struk tersimpan di "+ newStruk.getName()+"\n");
 
                 String produkUntukDiPrint=arrToString(strukDanJumlah); //Memformat seluruh produk  menjadi string lalu menuliskanya ke fileStruk.txt
                 for(int m=0;m<strukDanJumlah.size();m++){
