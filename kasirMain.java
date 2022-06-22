@@ -18,7 +18,12 @@ public class kasirMain {
 
     public static void tambahKeStruk(linkedList llist,ArrayList<produk> struk,int id,int jumlah ){//Menambahkan setiap produk dibeli ke ArrayList (Belum dihitung duplikasi)
         for(int i=0;i<jumlah;i++){
-            struk.add(llist.find(id));
+            produk produkDiCari= llist.find(id);
+            if(produkDiCari==null){
+                break;
+            }
+            struk.add(produkDiCari);
+
         }
     }
 
@@ -171,6 +176,7 @@ public class kasirMain {
                 for(int m=0;m<strukDanJumlah.size();m++){
                     Tulis(newStruk, produkUntukDiPrint,harTot);
                 }
+                strukBelanja.clear();
 
             }
             else{

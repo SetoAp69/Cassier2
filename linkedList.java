@@ -24,7 +24,7 @@ public  class linkedList<T>    { //Class LinkedList
     }
 
     public produk find(int key){ //Finding the Product from given id(key)
-        produk productFound=new produk(0,"",0);
+        produk productFound=null;
         Node current=head; //Traversing until current.next is null
         while(current.next!=null){
             produk currentProduct= current.data;
