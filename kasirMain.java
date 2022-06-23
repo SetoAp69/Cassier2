@@ -173,9 +173,7 @@ public class kasirMain {
                 System.out.println("Struk tersimpan di "+ newStruk.getName()+"\n");
 
                 String produkUntukDiPrint=arrToString(strukDanJumlah); //Memformat seluruh produk  menjadi string lalu menuliskanya ke fileStruk.txt
-                for(int m=0;m<strukDanJumlah.size();m++){
-                    Tulis(newStruk, produkUntukDiPrint,harTot);
-                }
+                Tulis(newStruk,produkUntukDiPrint,harTot);//Menuliskan String produkUntukDiprint ke file.txt
                 strukBelanja.clear();
 
             }
